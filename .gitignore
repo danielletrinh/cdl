@@ -1,0 +1,51 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Dependency directories
+**/node_modules/
+**/bower_components/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo/
+*.pyd/
+
+# Virtual environment
+**/venv/
+**/env/
+
+
+
+# Logs and databases
+*.log
+*.sqlitedb
+
+# Editor-specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+*.komodoide/
+.history/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Environment variable files
+.env
+
+# Compiled files
+*.pyc
+*.pyo
+*.pyc/
+
+# PyInstaller
+dist/
+build/
