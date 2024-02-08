@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Outlet, Link } from "react-router-dom";
+import Axios from "axios";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="call-the-web" element={<CallTheWeb />} />
 
             {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
@@ -50,6 +52,9 @@ function Layout() {
           </li>
           <li>
             <Link to="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link to="/call-the-web">Call The Web</Link>
           </li>
           <li>
             <Link to="/nothing-here">Nothing Here</Link>
@@ -90,6 +95,31 @@ function Dashboard() {
     <div>
       <h2>Dashboard</h2>
       <aside> Let's pretend there are charts and graphs here because why not? Its so exciting!</aside>
+    </div>
+  );
+}
+
+function CallTheWeb() {
+  let [content, setContent] = useState("");
+  useEffect(() => {
+    Axios.get("https://i.imgur.com/XkCmUIC.jpeg", { responseType: 'arraybuffer' })
+      .then((response) => {
+        const base64String = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+        setContent(base64String);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  return (
+    <div>
+      <h2>CallTheWeb</h2>
+      <aside> Let's pretend we are calling the web here - plot twist - we are! </aside>
+      <h1>CONTENT!</h1>
+      <div> content..........
+        <img src={`data:image/jpeg;base64, ${content}`} alt="Description" />
+      </div>
     </div>
   );
 }
