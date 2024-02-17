@@ -1,14 +1,19 @@
-# web-root.py
-
-from services.greet_module import greet
-from flask import Flask
-
+# web-root.py (app.py)
+from flask import Flask, send_from_directory
+from services.fetch_model_attribs import get_embeddings_as_json
+from flask_cors import CORS
 app = Flask(__name__)
 
-@app.route("/")
-def hello_world():
-    greeting = greet("my friends from code day")
-    return f"<p>{greeting}</p>"
+CORS(app)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
+@app.route('/')
+@app.route('/<path:page_path>')
+def homepage(page_path=None):
+    if page_path == 'model-attributes':
+        # Call the function to get model attributes as JSON
+        result = get_embeddings_as_json(n_items=5, n_users=5)
+        return result
+    else:
+        # Serve the index.html for other routes
+        return send_from_directory('static', 'index.html')

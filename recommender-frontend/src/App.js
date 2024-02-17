@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Outlet, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet, Link, json } from "react-router-dom";
 import Axios from "axios";
 
 export default function App() {
@@ -25,6 +25,7 @@ export default function App() {
             <Route path="about" element={<About />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="call-the-web" element={<CallTheWeb />} />
+            <Route path="model-attributes" element={< ModelAttributes />} />
 
             {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
@@ -55,6 +56,9 @@ function Layout() {
           </li>
           <li>
             <Link to="/call-the-web">Call The Web</Link>
+          </li>
+          <li>
+            <Link to="/model-attributes">MODEL ATTRIBS</Link>
           </li>
           <li>
             <Link to="/nothing-here">Nothing Here</Link>
@@ -120,6 +124,29 @@ function CallTheWeb() {
       <div> content..........
         <img src={`data:image/jpeg;base64, ${content}`} alt="Description" />
       </div>
+    </div>
+  );
+}
+
+function ModelAttributes() {
+  let [content, setContent] = useState(null);
+  useEffect(() => {
+    Axios.get("//localhost:5000/model-attributes")
+      .then((response) => {
+        
+        setContent(response.data);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  return (
+    <div>
+      <h2>ModelAttributes</h2>
+      <aside> Here are the attributes from the latest trained model we know about:</aside>
+      
+      <div style={{'color': 'red'}}>{ content && content.error}</div>
     </div>
   );
 }
